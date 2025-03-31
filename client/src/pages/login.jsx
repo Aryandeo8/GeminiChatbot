@@ -1,6 +1,6 @@
 import React from 'react'
-import {Appname} from '../components/appname'
-import {Logincard} from '../components/logincard'
+import {Appname} from '../components/appname.jsx'
+import {Logincard} from '../components/logincard.jsx'
 
 export const Login = () => {
   return (

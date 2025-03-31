@@ -1,6 +1,6 @@
 import React from 'react'
-import { Login } from './pages/login';
-import { Display } from './pages/display';
+import { Login } from './pages/login.jsx';
+import {Chatbot} from './pages/Chat.jsx';
 import {Routes, Route} from "react-router-dom";
 
 function App () {
@@ -10,7 +10,7 @@ function App () {
       <Route path="/" element={<Login/>} />
       <Route path="/login" element={<Login/>} />
       <Route path="/register" element={<Login/>} />
-      <Route path="/display" element={<Display/>}/>
+      <Route path="/display" element={<Chatbot/>}/>
     </Routes>
 
     
