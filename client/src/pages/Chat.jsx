@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Chatbot = () => {
+export const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
 
@@ -73,4 +73,4 @@ const Chatbot = () => {
   );
 };
 
-export default Chatbot;
+
