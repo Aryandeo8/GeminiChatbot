@@ -4,7 +4,9 @@ import {
   registerUser,
   refreshAccessToken,
   getCurrentUser,
-  googleCallback
+  googleCallback,
+  verifyToken,
+  verifyUser
 } from '../controllers/user.controller.js';
 import { verifyJWT } from '../middleware/auth.middleware.js';
 import passport from 'passport';
@@ -19,6 +21,7 @@ userRouter.route("/auth/google").get(passport.authenticate("google", {
   scope: ["profile", "email"],
   session: false
 }));
+userRouter.get("/auth-status", verifyToken, verifyUser);
 
 userRouter.route("/auth/google/callback").get(passport.authenticate("google", {
   failureRedirect: "/login",

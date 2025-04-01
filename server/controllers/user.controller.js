@@ -170,11 +170,57 @@ const googleCallback = asyncHandler(async(req, res) => {
     res.cookie("refreshToken", refreshToken, { httpOnly: true, secure: true });
     res.redirect('/display');
   });
+const verifyUser = async (req, res, next) => {
+    try {
+      // Check the user's token
+      const user = await User.findById(res.locals.jwtData.id);
+      if (!user) {
+        return res.status(401).send("User not registered OR Token malfunctioned");
+      }
+      if (user._id.toString() !== res.locals.jwtData.id) {
+        return res.status(401).send("Permissions didn't match");
+      }
+      return res.status(200).json({
+        message: "OK",
+        email: user.email
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: "ERROR",
+        cause: error.message,
+      });
+    }
+};
+const verifyToken = async (req, res, next) => {
+    const token = req.signedCookies[`${process.env.COOKIE_NAME}`];
+    if (!token || token.trim() === "") {
+      return res.status(401).json({ message: "Token Not Received" });
+    }
   
+    try {
+      jwt.verify(token, process.env.JWT_SECRET, (err, success) => {
+        if (err) {
+          return res.status(401).json({ message: "Token Expired" });
+        } else {
+          res.locals.jwtData = success;
+          return next();
+        }
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+  };
 export {
     registerUser,
     loginUser,
     refreshAccessToken,
     getCurrentUser,
-    googleCallback
+    googleCallback,
+    verifyUser,
+    verifyToken
 }
+
+
+  

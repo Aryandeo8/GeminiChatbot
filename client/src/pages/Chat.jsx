@@ -1,10 +1,15 @@
 import React, { useState } from "react";
+import  axios from "axios";
 
 export const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  
+  const getAuthHeader = () => {
+    const token = localStorage.getItem('jwtToken');
+    return { headers: { Authorization: `Bearer ${token}` } };
+  };
 
-  // Function to handle sending messages
   const handleSendMessage = async () => {
     if (!input.trim()) return;
 
@@ -30,12 +35,9 @@ export const Chatbot = () => {
 
   return (
     <div className="flex flex-col h-screen bg-gray-100">
-      {/* Header */}
       <header className="bg-blue-600 text-white text-center py-4">
         <h1 className="text-2xl font-bold">AI Chatbot</h1>
       </header>
-
-      {/* Chat Window */}
       <div className="flex-1 overflow-y-auto p-4">
         <div className="space-y-4">
           {messages.map((msg, index) => (
