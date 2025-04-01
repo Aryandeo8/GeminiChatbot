@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link, useLocation } from 'react-router-dom';
 import React from 'react';
 import { GoogleLogin } from '@react-oauth/google';
-
+import { loginUser, signupUser } from '../helper/api-communications';
 export const Logincard = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,33 +31,9 @@ export const Logincard = () => {
     console.log('Form submission with:', { email, password });
 
     if (isLogin) {
-      axios.post('http://localhost:4000/api/user/login', { email, password })
-        .then(result => {
-          console.log(result.data);
-          if (result.data.success) {
-            console.log('Login successful');
-            navigate('/display');
-          } else {
-            console.log('Login failed');
-          }
-        })
-        .catch(err => {
-          console.log('Error:', err);
-        })
+      loginUser(email,password);
     } else {
-      axios.post('http://localhost:4000/api/user/register', { email, password })
-        .then(result => {
-          console.log(result.data);
-          if (result.data.success) {
-            console.log('Registration successful');
-            navigate('/display');
-          } else {
-            console.log('Registration failed');
-          }
-        })
-        .catch(err => {
-          console.log('Error:', err);
-        })
+      signupUser(email,password);
     }
   };
   const handleError = (error) => {

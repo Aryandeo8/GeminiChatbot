@@ -1,5 +1,10 @@
-import React, { useState } from "react";
-import  axios from "axios";
+import React, { useState,useLayoutEffect, useRef, useState } from "react";
+
+import {
+  getUserChats,
+  sendChatRequest,
+} from "../helper/api-communications.jsx";
+
 
 export const Chatbot = () => {
   const [messages, setMessages] = useState([]);
